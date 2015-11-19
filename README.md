@@ -7,10 +7,10 @@ Simple extension to provide "Short URLs", i.e. redirects to existing resources w
 * `example.org/123pdf` » `http://www.example.org/files/lorem/ipsum/dolor.pdf`
 * `example.org/abcd` » `http://www.some-other-website.com/foo.html`
 
-without editing the .htaccess file (to insert these redirects as Redirect, RedirectMatch or RewriteRule properties) or changing the server configuration. These redirects can be created in the backend under _Content » Short URLs_.
+without editing the .htaccess file (to insert these redirects as Redirect, RedirectMatch or RewriteRule directives) or changing the server configuration. These redirects can be created in the backend under _Content » Short URLs_.
 
 
-## Requirements
+### Requirements
 
 You need to edit Contao's default `.htaccess` file and change it as if you are using URLs without an `.html` suffix. i.e. you have to change these lines:
 
@@ -30,3 +30,8 @@ RewriteRule .* index.php [L]
 ```
 
 so that any request (which does not point to a file or directory) is processed by Contao.
+
+
+### Acknowledgements
+
+Development funded by [Jaeggi & Tschui Grafik Webdesign GmbH](http://www.jaeggitschui.ch/) and [KASTNER Gruppe](http://www.kastner.at/).
