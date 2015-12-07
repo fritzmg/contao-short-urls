@@ -27,8 +27,11 @@ class ShortURLs
 			if( ( $objPage = \PageModel::findPublishedByIdOrAlias( $pageId ) ) === null )
 				return;
 
+			// load details of the page
+			$objPage->current()->loadDetails();
+
 			// generate the URL
-			$target = \Environment::get('base') . \Controller::generateFrontendUrl( $objPage->row(), null, null, true );
+			$target = \Environment::get('base') . \Controller::generateFrontendUrl( $objPage->row(), null, $objPage->rootLanguage, true );
 		}
 		elseif( stripos( $target, 'http' ) !== 0 )
 		{
