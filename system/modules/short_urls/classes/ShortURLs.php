@@ -16,6 +16,15 @@
  */
 class ShortURLs
 {
+
+	public function __construct()
+	{
+		// initialize required singletons in the right order
+		\FrontendUser::getInstance();
+		\Database::getInstance();
+	}
+
+
 	public static function processTarget( $target )
 	{
 		if( stripos( $target, '{{link_url::' ) === 0 )
@@ -67,4 +76,5 @@ class ShortURLs
 		// execute redirect
 		\Controller::redirect( $url, $objShortURL->redirect == 'permanent' ? 301 : 302 );
 	}
+
 }

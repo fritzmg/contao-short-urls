@@ -22,4 +22,5 @@ $GLOBALS['BE_MOD']['content']['shorturls'] = array
 /**
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['initializeSystem'][] = array('ShortURLs','checkForShortURL');
+if( TL_MODE == 'FE' )
+	$GLOBALS['TL_HOOKS']['initializeSystem'][] = array('ShortURLs','checkForShortURL');
