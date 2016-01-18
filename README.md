@@ -17,7 +17,7 @@ without editing the .htaccess file (to insert these redirects as Redirect, Redir
 You need to edit Contao's default `.htaccess` file and change it as if you are using URLs without an `.html` suffix. i.e. you have to change these lines:
 
 ```
-RewriteCond %{REQUEST_FILENAME} !\.(htm|php|js|css|htc|png|gif|jpe?g|ico|xml|csv|txt|swf|flv|mp4|webm|ogv|mp3|ogg|oga|eot|otf|tt[cf]|woff2?|svgz?|pdf|gz)$
+RewriteCond %{REQUEST_FILENAME} !\.(htm|php|js|css|map|htc|png|gif|jpe?g|ico|xml|csv|txt|swf|flv|mp4|webm|ogv|mp3|ogg|oga|eot|otf|tt[cf]|woff2?|svgz?|pdf|gz)$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule .*\.html$ index.php [L]
 ```
@@ -25,7 +25,7 @@ RewriteRule .*\.html$ index.php [L]
 to
 
 ```
-RewriteCond %{REQUEST_FILENAME} !\.(htm|php|js|css|htc|png|gif|jpe?g|ico|xml|csv|txt|swf|flv|mp4|webm|ogv|mp3|ogg|oga|eot|otf|tt[cf]|woff2?|svgz?|pdf|gz)$
+RewriteCond %{REQUEST_FILENAME} !\.(htm|php|js|css|map|htc|png|gif|jpe?g|ico|xml|csv|txt|swf|flv|mp4|webm|ogv|mp3|ogg|oga|eot|otf|tt[cf]|woff2?|svgz?|pdf|gz)$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule .* index.php [L]
