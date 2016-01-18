@@ -19,3 +19,5 @@ $GLOBALS['TL_LANG']['tl_short_urls']['temporary'] = '302 Temporäre Weiterleitun
 $GLOBALS['TL_LANG']['tl_short_urls']['alias'] = 'Zusätzlicher Seiten Alias';
 $GLOBALS['TL_LANG']['tl_short_urls']['disable'] = array('Deaktivieren','Deaktiviert diese Short URL.');
 $GLOBALS['TL_LANG']['tl_short_urls']['pageExists'] = 'Es existiert bereits eine Seite mit dem Alias "%s".';
+$GLOBALS['TL_LANG']['tl_short_urls']['noDomain'] = 'Keine Einschränkung';
+$GLOBALS['TL_LANG']['tl_short_urls']['domain'] = array('Domain Einschränkung', 'Die Short URL wird nur bei Aufruf über die angegebene Domain verwendet.');

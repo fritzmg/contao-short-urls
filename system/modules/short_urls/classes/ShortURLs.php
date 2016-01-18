@@ -66,6 +66,12 @@ class ShortURLs
 		if( !$objShortURL->target )
 			return;
 
+		// check for domain restriction
+		if( $objShortURL->domain )
+			if( ( $objDomain = \PageModel::findById( $objShortURL->domain ) ) !== null )
+				if( strcasecmp( $objDomain->dns, \Environment::get('host') ) != 0 )
+					return;
+
 		// build redirect URL
 		$url = self::processTarget( $objShortURL->target );
 

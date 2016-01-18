@@ -80,7 +80,7 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'                     => '{shorturl_legend},name,target,redirect,disable'
+		'default'                     => '{shorturl_legend},name,domain,target,redirect,disable'
 	),
 
 	// Fields
@@ -100,9 +100,20 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
-			'eval'                    => array('rgxp'=>'alias', 'unique'=>true, 'maxlength'=>128, 'mandatory'=>true),
+			'eval'                    => array('unique'=>true, 'maxlength'=>255, 'mandatory'=>true,'tl_class'=>'w50'),
 			'save_callback'           => array( array('tl_short_urls', 'validateName') ),
-			'sql'                     => "varchar(128) NOT NULL default ''"
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+		'domain' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_short_urls']['domain'],
+			'default'                 => '',
+			'exclude'                 => true,
+			'inputType'               => 'select',
+			'options_callback'        => array('tl_short_urls', 'getDomains'),
+			'eval'                    => array('tl_class'=>'w50','submitOnChange'=>true),
+			'save_callback'           => array( array('tl_short_urls', 'validateDomain') ),
+			'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		),
 		'redirect' => array
 		(
@@ -158,14 +169,55 @@ class tl_short_urls extends Backend
 	 */
 	public function validateName($varValue, DataContainer $dc)
 	{
-		// transform name to lower case
-		$varValue = strtolower( $varValue );
-
-		// check if a page exists
-		if( !\Config::get('urlSuffix') && \PageModel::findByAlias( $varValue ) !== null )
-			throw new Exception(sprintf($GLOBALS['TL_LANG']['tl_short_urls']['pageExists'], $varValue));
-
+		$this->validate( $varValue, $dc->activeRecord->domain );
 		return $varValue;
+	}
+
+	/**
+	 * Process and validate the name of a short url
+	 *
+	 * @param mixed         $varValue
+	 * @param DataContainer $dc
+	 *
+	 * @return string
+	 *
+	 * @throws Exception
+	 */
+	public function validateDomain($varValue, DataContainer $dc)
+	{
+		$this->validate( $dc->activeRecord->name, $varValue );
+		return $varValue;
+	}
+
+	private function validate($name, $domain)
+	{
+		// check if a page exists
+		if( !\Config::get('urlSuffix') && ( $objPages = \PageModel::findByAlias( $name ) ) !== null )
+		{
+			// check if short url has a domain
+			if( $domain > 0 )
+			{
+				$valid = true;
+				while( $objPages->next() )
+				{
+					// load page details
+					$objPages->current()->loadDetails();
+
+					// if one of the found pages is within the same domain, do not allow it
+					if( $objPages->rootId == $domain )
+					{
+						$valid = false;
+						break;
+					}
+				}
+
+				if( $valid )
+					return;			
+			}
+
+			// otherwise throw exception
+			throw new Exception(sprintf($GLOBALS['TL_LANG']['tl_short_urls']['pageExists'], $name));
+		}
 	}
 
 
@@ -263,7 +315,33 @@ class tl_short_urls extends Backend
 		// remove current host
 		$targetURL = str_replace( \Environment::get('base'), '', $targetURL );
 
+		// check for domain restriction
+		$domain = '';
+		if( $arrRow['domain'] && ( $objPage = \PageModel::findById( $arrRow['domain'] ) ) !== null )
+			$domain = $objPage->dns . '/';
+
 		// generate list record
-		return '<div class="tl_content_right"><span style="color:rgb(200,200,200)">[' . ( $arrRow['redirect'] == 'permanent' ? 301 : 302 ) . ']</span></div><div class="tl_content_left">' . $arrRow['name'] . ' &raquo; ' . $targetURL . ' </div>';
+		return '<div class="tl_content_right"><span style="color:rgb(200,200,200)">[' . ( $arrRow['redirect'] == 'permanent' ? 301 : 302 ) . ']</span></div><div class="tl_content_left">' . $domain . $arrRow['name'] . ' &raquo; ' . $targetURL . ' </div>';
+	}
+
+
+	/**
+	 * Retreives all available domains in this installation (plus empty selection)
+	 *
+	 * @return array
+	 */
+	public function getDomains()
+	{
+		// options array
+		$options = array( $GLOBALS['TL_LANG']['tl_short_urls']['noDomain'] );
+
+		// get the root pages and their dns settings
+		if( ( $objPages = \PageModel::findPublishedRootPages() ) !== null )
+			while( $objPages->next() )
+				if( $objPages->dns )
+					$options[$objPages->id] = $objPages->dns;
+
+		// return the options
+		return $options;
 	}
 }
