@@ -9,6 +9,8 @@ Simple extension to provide "Short URLs", i.e. redirects to existing resources w
 
 without editing the .htaccess file (to insert these redirects as Redirect, RedirectMatch or RewriteRule directives) or changing the server configuration. These redirects can be created in the backend under _Content » Short URLs_.
 
+![Backend screenshot](https://raw.githubusercontent.com/fritzmg/contao-short-urls/master/screenshot.png)
+
 
 ### Requirements
 
