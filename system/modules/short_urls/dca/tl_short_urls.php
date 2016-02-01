@@ -333,7 +333,7 @@ class tl_short_urls extends Backend
 	public function getDomains()
 	{
 		// options array
-		$options = array( $GLOBALS['TL_LANG']['tl_short_urls']['noDomain'] );
+		$options = array( '' => $GLOBALS['TL_LANG']['tl_short_urls']['noDomain'] );
 
 		// get the root pages and their dns settings
 		if( ( $objPages = \PageModel::findPublishedRootPages() ) !== null )
