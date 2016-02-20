@@ -21,4 +21,3 @@ $GLOBALS['TL_LANG']['tl_short_urls']['disable'] = array('Disable','Disables this
 $GLOBALS['TL_LANG']['tl_short_urls']['pageExists'] = 'There is already a page with the alias "%s".';
 $GLOBALS['TL_LANG']['tl_short_urls']['noDomain'] = 'No restriction';
 $GLOBALS['TL_LANG']['tl_short_urls']['domain'] = array('Domain restriction', 'The short URL will only be used via the given domain.');
-
