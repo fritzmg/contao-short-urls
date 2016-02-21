@@ -27,6 +27,7 @@ class ShortURLs
 
 	public static function processTarget( $target )
 	{
+		// check for insert tag
 		if( stripos( $target, '{{link_url::' ) === 0 )
 		{
 			// get the page id
@@ -40,13 +41,12 @@ class ShortURLs
 			$objPage->current()->loadDetails();
 
 			// generate the URL
-			$target = \Environment::get('base') . \Controller::generateFrontendUrl( $objPage->row(), null, $objPage->rootLanguage, true );
+			$target = \Controller::generateFrontendUrl( $objPage->row(), null, $objPage->rootLanguage, true );
 		}
-		elseif( stripos( $target, 'http' ) !== 0 )
-		{
-			// add base to url
+
+		// add scheme and current host if no scheme is present
+		if( stripos( $target, 'http' ) !== 0 )
 			$target = \Environment::get('base') . $target;
-		}
 
 		// return processed target
 		return $target;	
