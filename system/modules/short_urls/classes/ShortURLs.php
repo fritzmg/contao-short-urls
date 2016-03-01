@@ -27,11 +27,15 @@ class ShortURLs
 
 	public static function processTarget( $target )
 	{
+		// replace insert tags for Contao 3.5.7 and up
+		if( version_compare( VERSION . BUILD , '3.5.7', '>=' ) )
+			$target = \Controller::replaceInsertTags( $target );
+
 		// check for insert tag
 		if( stripos( $target, '{{link_url::' ) === 0 )
 		{
 			// get the page id
-			$pageId = substr( $target, 12, -2 ); 
+			$pageId = substr( $target, 12, strpos( $target, '}}') - 12 ); 
 
 			// get the page
 			if( ( $objPage = \PageModel::findPublishedByIdOrAlias( $pageId ) ) === null )
@@ -41,12 +45,8 @@ class ShortURLs
 			$objPage->current()->loadDetails();
 
 			// generate the URL
-			$target = \Controller::generateFrontendUrl( $objPage->row(), null, $objPage->rootLanguage, true );
+			$target = \Controller::generateFrontendUrl( $objPage->row(), null, $objPage->rootLanguage, true ) . substr( $target, strpos( $target, '}}' ) + 2 );
 		}
-
-		// add scheme and current host if no scheme is present
-		if( stripos( $target, 'http' ) !== 0 )
-			$target = \Environment::get('base') . $target;
 
 		// return processed target
 		return $target;	
