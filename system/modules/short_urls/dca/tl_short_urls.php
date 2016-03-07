@@ -345,7 +345,7 @@ class tl_short_urls extends Backend
 		}
 		else
 		{
-			$t = \PageModel::$strTable;
+			$t = \PageModel::getTable();
 			$arrColumns = array("$t.type=?");
 
 			if (!BE_USER_LOGGED_IN)
