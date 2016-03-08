@@ -28,7 +28,7 @@ class ShortURLs
 	public static function processTarget( $target )
 	{
 		// replace insert tags for Contao 3.5.7 and up
-		if( version_compare( VERSION . BUILD , '3.5.7', '>=' ) )
+		if( version_compare( VERSION . '.' . BUILD, '3.5.7', '>=' ) )
 			$target = \Controller::replaceInsertTags( $target );
 
 		// check for insert tag
