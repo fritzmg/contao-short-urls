@@ -361,7 +361,7 @@ class tl_short_urls extends Backend
 					if( $objPages->dns )
 						$options[$objPages->id] = $objPages->dns;
 		}
-var_dump($options);
+
 		// return the options
 		return $options;
 	}
