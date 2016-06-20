@@ -100,7 +100,7 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
-			'eval'                    => array('unique'=>true, 'maxlength'=>255, 'mandatory'=>true,'tl_class'=>'w50'),
+			'eval'                    => array('maxlength'=>255, 'mandatory'=>true,'tl_class'=>'w50'),
 			'save_callback'           => array( array('tl_short_urls', 'validateName') ),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
@@ -361,7 +361,7 @@ class tl_short_urls extends Backend
 					if( $objPages->dns )
 						$options[$objPages->id] = $objPages->dns;
 		}
-
+var_dump($options);
 		// return the options
 		return $options;
 	}
