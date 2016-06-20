@@ -27,11 +27,10 @@ class ShortURLsModel extends \Model
 	/**
 	 * Find active Short URLs by their name
 	 *
-	 * @param mixed $varId      The numeric ID or alias name
-	 * @param array $arrPids    An array of parent IDs
+	 * @param mixed $name       The name of the short URL
 	 * @param array $arrOptions An optional options array
 	 *
-	 * @return static The NewsModel or null if there are no news
+	 * @return static Model|Collection|null
 	 */
 	public static function findActiveByName($name, array $arrOptions=array())
 	{
