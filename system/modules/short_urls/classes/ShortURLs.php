@@ -58,29 +58,32 @@ class ShortURLs
 		if( TL_MODE != 'FE' )
 			return;
 
-		// check if we have a Short URL
-		if( ( $objShortURL = \ShortURLsModel::findActiveByName( \Environment::get('request') ) ) === null )
-			return;
+		// check if we have one or more Short URLs
+		if( ( $objShortURL = \ShortURLsModel::findActiveByName( \Environment::get('request') ) ) !== null )
+		{
+			// go through each short URL
+			while( $objShortURL->next() )
+			{
+				// check if there is a target set
+				if( !$objShortURL->target )
+					continue;
 
-		// check if there is a target set
-		if( !$objShortURL->target )
-			return;
+				// check for domain restriction
+				if( $objShortURL->domain )
+					if( ( $objDomain = \PageModel::findById( $objShortURL->domain ) ) !== null )
+						if( strcasecmp( $objDomain->dns, \Environment::get('host') ) !== 0 )
+							continue;
 
-		// check for domain restriction
-		if( $objShortURL->domain )
-			if( ( $objDomain = \PageModel::findById( $objShortURL->domain ) ) !== null )
-				if( strcasecmp( $objDomain->dns, \Environment::get('host') ) != 0 )
-					return;
+				// build redirect URL
+				$url = self::processTarget( $objShortURL->target );
 
-		// build redirect URL
-		$url = self::processTarget( $objShortURL->target );
+				// prevent infinite redirects
+				if( $url == \Environment::get('base') . \Environment::get('request') )
+					continue;
 
-		// prevent infinite redirects
-		if( $url == \Environment::get('base') . \Environment::get('request') )
-			return;
-
-		// execute redirect
-		\Controller::redirect( $url, $objShortURL->redirect == 'permanent' ? 301 : 302 );
+				// execute redirect
+				\Controller::redirect( $url, $objShortURL->redirect == 'permanent' ? 301 : 302 );				
+			}
+		}
 	}
-
 }
