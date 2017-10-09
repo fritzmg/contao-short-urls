@@ -148,7 +148,7 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
 	)
 );
 
-if (interface_exists('Contao\CoreBundle\Picker\DcaPickerProviderInterface', false))
+if (interface_exists('Contao\CoreBundle\Picker\DcaPickerProviderInterface'))
 {
 	$GLOBALS['TL_DCA']['tl_short_urls']['fields']['target']['eval']['dcaPicker'] = true;
 	unset($GLOBALS['TL_DCA']['tl_short_urls']['fields']['target']['eval']['fieldType']);
