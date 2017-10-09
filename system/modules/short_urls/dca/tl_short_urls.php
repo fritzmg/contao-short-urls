@@ -148,6 +148,14 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
 	)
 );
 
+if (interface_exists('Contao\CoreBundle\Picker\DcaPickerProviderInterface', false))
+{
+	$GLOBALS['TL_DCA']['tl_short_urls']['fields']['target']['eval']['dcaPicker'] = true;
+	unset($GLOBALS['TL_DCA']['tl_short_urls']['fields']['target']['eval']['fieldType']);
+	unset($GLOBALS['TL_DCA']['tl_short_urls']['fields']['target']['eval']['filesOnly']);
+	unset($GLOBALS['TL_DCA']['tl_short_urls']['fields']['target']['wizard']);
+}
+
 
 /**
  * Provide miscellaneous methods that are used by the data configuration array.
