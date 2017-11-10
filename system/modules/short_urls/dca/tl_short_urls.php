@@ -345,7 +345,7 @@ class tl_short_urls extends Backend
 			$domain = $objPage->dns . '/';
 
 		// generate list record
-		return '<div class="tl_content_right"><span style="color:rgb(200,200,200)">[' . ( $arrRow['redirect'] == 'permanent' ? 301 : 302 ) . ']</span></div><div class="tl_content_left">' . $domain . $arrRow['name'] . ' &raquo; ' . $targetURL . ' </div>';
+		return '<div class="tl_content_right"><span style="color:rgb(200,200,200)">[' . ( $arrRow['redirect'] == 'permanent' ? 301 : 302 ) . ']</span></div><div class="tl_content_left">' . $domain . rawurldecode($arrRow['name']) . ' &raquo; ' . rawurldecode($targetURL) . ' </div>';
 	}
 
 
