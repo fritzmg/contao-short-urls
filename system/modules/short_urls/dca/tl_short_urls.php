@@ -101,6 +101,7 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
 			'search'                  => true,
 			'inputType'               => 'text',
 			'eval'                    => array('maxlength'=>255, 'mandatory'=>true,'tl_class'=>'w50'),
+			'load_callback'           => array(array('tl_short_urls', 'loadName')),
 			'save_callback'           => array( array('tl_short_urls', 'validateName') ),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
@@ -166,37 +167,52 @@ class tl_short_urls extends Backend
 {
 
 	/**
-	 * Process and validate the name of a short url
-	 *
+	 * Decodes the name
 	 * @param mixed         $varValue
 	 * @param DataContainer $dc
-	 *
 	 * @return string
-	 *
+	 */
+	public function loadName($varValue, DataContainer $dc)
+	{
+		return rawurldecode($varValue);
+	}
+
+
+	/**
+	 * Process and validate the name of a short url
+	 * @param mixed         $varValue
+	 * @param DataContainer $dc
+	 * @return string
 	 * @throws Exception
 	 */
 	public function validateName($varValue, DataContainer $dc)
 	{
-		$this->validate( $varValue, $dc->activeRecord->domain );
-		return $varValue;
+		$varValue = rawurldecode($varValue);
+		$this->validate($varValue, $dc->activeRecord->domain);
+		return implode('/', array_map('rawurlencode', explode('/', $varValue)));
 	}
+
 
 	/**
 	 * Process and validate the name of a short url
-	 *
 	 * @param mixed         $varValue
 	 * @param DataContainer $dc
-	 *
 	 * @return string
-	 *
 	 * @throws Exception
 	 */
 	public function validateDomain($varValue, DataContainer $dc)
 	{
-		$this->validate( $dc->activeRecord->name, $varValue );
+		$this->validate($dc->activeRecord->name, $varValue);
 		return $varValue;
 	}
 
+
+	/**
+	 * Validate the name of a short url
+	 * @param  string $name  
+	 * @param  string $domain
+	 * @return void
+	 */
 	private function validate($name, $domain)
 	{
 		// check if a page exists
