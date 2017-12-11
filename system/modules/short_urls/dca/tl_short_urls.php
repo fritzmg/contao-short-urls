@@ -19,7 +19,7 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
 	'config' => array
 	(
 		'dataContainer'               => 'Table',
-		/*'ptable'                      => 'tl_page',*/
+		'enableVersioning'            => true,
 		'sql' => array
 		(
 			'keys' => array
@@ -100,7 +100,7 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
-			'eval'                    => array('maxlength'=>255, 'mandatory'=>true,'tl_class'=>'w50'),
+			'eval'                    => array('maxlength'=>255, 'mandatory'=>true, 'decodeEntities'=>true, 'tl_class'=>'w50'),
 			'load_callback'           => array(array('tl_short_urls', 'loadName')),
 			'save_callback'           => array( array('tl_short_urls', 'validateName') ),
 			'sql'                     => "varchar(255) NOT NULL default ''"
@@ -174,6 +174,20 @@ class tl_short_urls extends Backend
 	 */
 	public function loadName($varValue, DataContainer $dc)
 	{
+		// check for query parameters
+		if (strpos($varValue, '?') !== false)
+		{
+			$pos = strpos($varValue, '?');
+			$url = substr($varValue, 0, $pos);
+			$par = substr($varValue, $pos + 1);
+
+			if ($par)
+			{
+				parse_str($par, $arrParameters);
+				return rawurldecode($url) . '?' . http_build_query($arrParameters);
+			}
+		}
+
 		return rawurldecode($varValue);
 	}
 
@@ -187,6 +201,20 @@ class tl_short_urls extends Backend
 	 */
 	public function validateName($varValue, DataContainer $dc)
 	{
+		// check for query parameters
+		if (strpos($varValue, '?') !== false)
+		{
+			$pos = strpos($varValue, '?');
+			$url = substr($varValue, 0, $pos);
+			$par = substr($varValue, $pos + 1);
+
+			if ($par)
+			{
+				parse_str($par, $arrParameters);
+				return implode('/', array_map('rawurlencode', explode('/', rawurldecode($url)))) . '?' . http_build_query($arrParameters);
+			}
+		}
+
 		$varValue = rawurldecode($varValue);
 		$this->validate($varValue, $dc->activeRecord->domain);
 		return implode('/', array_map('rawurlencode', explode('/', $varValue)));
