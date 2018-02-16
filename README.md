@@ -37,7 +37,9 @@ RewriteRule .* index.php [L]
 
 so that any request (which does not point to a file or directory) is processed by Contao.
 
-_Note:_ no changes are required for Contao 4!
+## Contao 4
+
+No changes to the `.htaccess` are necessary for Contao 4. Also you need to require at least version `^1.3.3` of this extension.
 
 
 ## Acknowledgements
