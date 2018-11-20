@@ -140,7 +140,6 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
             'label'                   => &$GLOBALS['TL_LANG']['tl_short_urls']['disable'],
             'exclude'                 => true,
             'filter'                  => true,
-            'default'                 => false,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr'),
             'sql'                     => "char(1) NOT NULL default ''"
