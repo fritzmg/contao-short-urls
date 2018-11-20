@@ -108,7 +108,6 @@ $GLOBALS['TL_DCA']['tl_short_urls'] = array
         'domain' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_short_urls']['domain'],
-            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'select',
             'options_callback'        => array('tl_short_urls', 'getDomains'),
