@@ -1,7 +1,7 @@
 {
     "name":"fritzmg/contao-short-urls",
     "description":"Simple extension to provide \"Short URLs\", i.e. redirects to existing resources which otherwise have a longer URL.",
-    "keywords":["contao", "form", "email"],
+    "keywords":["contao", "redirect", "rewrite", "url", "301", "302"],
     "type":"contao-module",
     "homepage":"http://www.inspiredminds.at",
     "license":"GPL-2.0-only",
