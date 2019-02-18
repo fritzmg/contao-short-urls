@@ -59,7 +59,7 @@ class ShortURLs
 			return;
 
 		// check if we have one or more Short URLs
-		if( ( $objShortURL = \ShortURLsModel::findActiveByName( \Environment::get('request') ) ) !== null )
+		if( ( $objShortURL = \ShortURLsModel::findActiveByName( str_replace('app_dev.php/', '', \Environment::get('request')) ) ) !== null )
 		{
 			// go through each short URL
 			while( $objShortURL->next() )
