@@ -1,3 +1,7 @@
+Abandoned, use [terminal42/contao-url-rewrite](https://github.com/terminal42/contao-url-rewrite/) instead.
+
+---
+
 [![](https://img.shields.io/maintenance/yes/2019.svg)](https://github.com/fritzmg/contao-short-urls)
 [![](https://img.shields.io/packagist/v/fritzmg/contao-short-urls.svg)](https://packagist.org/packages/fritzmg/contao-short-urls)
 [![](https://img.shields.io/packagist/dt/fritzmg/contao-short-urls.svg)](https://packagist.org/packages/fritzmg/contao-short-urls)
